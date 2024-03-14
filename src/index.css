@@ -1,0 +1,144 @@
+:root{
+  --mainColor: #ddddddb7;
+  --textWhite: #fff;
+  --textBlack: #000;
+  --lightGrey: #bbb;
+  --normalGrey: #999;
+  --darkGrey: #555;
+  --mainBlue: #06a;
+  --normalTextSize: 16px;
+  --smallTextSize: 14px;
+}
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  user-select: none;
+  scrollbar-width: none;
+}
+button, input[type='text'], textarea{
+  padding: 20px 10px;
+  border-radius: 10px;
+  background: var(--mainBlue);
+  color: var(--textWhite);
+  border: none;
+  cursor: pointer;
+}
+button:hover, #settingMenu > p:hover{
+  filter: brightness(130%);
+}
+input[type='text'], textarea{
+  background: var(--textWhite);
+  color: var(--textBlack);
+  border: solid 1px var(--lightGrey);
+}
+textarea{
+  resize: none;
+  max-height: 100px;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+#mainContainer{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+header{
+  background: var(--mainColor);
+  color: var(--textBlack);
+  padding: 20px;
+  border-bottom: solid 1px var(--lightGrey);
+}
+main{
+  background: var(--textWhite);
+  height: 100%;
+  max-height: 90%;
+  display: flex;
+  gap: 20px;
+  padding: 40px;
+  justify-content: center;
+}
+.column{
+  width: 400px;
+  height: 100%;
+  background: var(--mainColor);
+  border-radius: 20px;
+  border: solid 1px var(--lightGrey);
+  display: flex;
+  flex-direction: column;
+  padding: 15px 20px;
+}
+.column > h2{
+  border-bottom: solid 1px var(--lightGrey);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--mainBlue);
+}
+.taskContainer{
+  max-height: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+.taskContainer > ul{
+  padding-bottom: 5px;
+}
+.taskContainer > ul > li{
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px 0;
+  background: var(--mainColor);
+  border: solid 1px var(--lightGrey);
+  list-style: none;
+  transition: border 0.2s;
+}
+.taskContainer > ul > li:first-child{
+  margin: 0 0 10px 0;
+}
+.taskContainer > ul > li:last-child{
+  margin: 10px 0 0 0;
+}
+.taskContainer > ul > li:hover{
+  border: solid 1px var(--darkGrey);
+}
+.taskContainer > ul > li > p, .taskContainer > ul > li > h6{
+  pointer-events: none;
+}
+.taskContainer > ul > li > h6{
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  color: var(--normalGrey);
+  font-weight: normal;
+}
+.taskContainer .trashBtn{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #a00;
+}
+.column > button, .column > input, textarea{
+  margin-top: 10px;
+  font-size: var(--smallTextSize);
+}
+.column h1{
+  width: fit-content;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 20px auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.4s linear 0.2s;
+}
