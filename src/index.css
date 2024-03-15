@@ -61,7 +61,7 @@ main{
   justify-content: center;
 }
 .column{
-  width: 400px;
+  width: 380px;
   height: 100%;
   background: var(--mainColor);
   border-radius: 20px;
@@ -82,49 +82,40 @@ main{
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
-.taskContainer > ul{
-  padding-bottom: 5px;
-}
-.taskContainer > ul > li{
-  position: relative;
-  text-align: center;
+.taskContainer > div{
   padding: 20px;
   border-radius: 10px;
   margin: 10px 0;
   background: var(--mainColor);
   border: solid 1px var(--lightGrey);
   list-style: none;
+  width: 336px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   transition: border 0.2s;
 }
-.taskContainer > ul > li:first-child{
+.taskContainer > div:first-child{
   margin: 0 0 10px 0;
 }
-.taskContainer > ul > li:last-child{
+.taskContainer > div:last-child{
   margin: 10px 0 0 0;
 }
-.taskContainer > ul > li:hover{
+.taskContainer > div:hover{
   border: solid 1px var(--darkGrey);
 }
-.taskContainer > ul > li > p, .taskContainer > ul > li > h6{
+.taskContainer > div > p, .taskContainer > div > h6{
   pointer-events: none;
 }
-.taskContainer > ul > li > h6{
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
+.taskContainer > div > h6{
   color: var(--normalGrey);
-  font-weight: normal;
+}
+.taskContainer > div > p{
+  margin-right: 20px;
 }
 .taskContainer .trashBtn{
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  width: 30px;
-  height: 30px;
-  padding: 5px;
-  transform: translateY(-50%);
-  cursor: pointer;
   color: #a00;
+  cursor: pointer;
 }
 .column > button, .column > input, textarea{
   margin-top: 10px;
@@ -140,5 +131,6 @@ main{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: 0.4s linear 0.2s;
+  font-weight: normal;
+  transition: 0.2s linear 0.2s;
 }

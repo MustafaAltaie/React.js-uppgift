@@ -1,23 +1,21 @@
 import propTypes from 'prop-types';
-import { FaTrashAlt } from 'react-icons/fa';
 
-const TaskList = ({ tasks, handleDelete }) => {
+const TaskList = ({ tasks, handleDelete, handleMouseDown }) => {
   return (
-    <ul>
-        {tasks.map(task => 
-            <li key={task.id}>
-                <p>{task.title}</p>
-                <h6>{task.date}</h6>
-                <FaTrashAlt className='trashBtn' role='button' onClick={() => handleDelete(task.id)} />
-            </li>
-        )}
-    </ul>
+      tasks.map(task => 
+          <div key={task.id} id={task.id} onMouseDown={handleMouseDown}>
+            <h6>{task.date}</h6>
+              <p>{task.title}</p>
+              <b className='trashBtn' onClick={() => handleDelete(task.id)}>X</b>
+          </div>
+      )
   )
 }
 
 TaskList.propTypes = {
     tasks: propTypes.array,
     handleDelete: propTypes.func,
+    handleMouseDown: propTypes.func
 }
 
 export default TaskList
