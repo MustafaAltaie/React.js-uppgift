@@ -70,15 +70,15 @@ function App() {
       currentTask.current.style.left = evt.clientX - currentTask.current.offsetWidth/2 + 'px';
       currentTask.current.style.top = evt.clientY - currentTask.current.offsetHeight/2 + 'px';
       if(evt.clientX > todoColumn.current.offsetLeft
-      && evt.clientX + currentTask.current.offsetWidth/2 < todoColumn.current.offsetLeft + todoColumn.current.offsetWidth){
+      && evt.clientX < todoColumn.current.offsetLeft + todoColumn.current.offsetWidth){
         handleColumns(todoColumn);
       }
       else if(evt.clientX > inProgressColumn.current.offsetLeft
-      && evt.clientX + currentTask.current.offsetWidth/2 < inProgressColumn.current.offsetLeft + inProgressColumn.current.offsetWidth){
+      && evt.clientX < inProgressColumn.current.offsetLeft + inProgressColumn.current.offsetWidth){
         handleColumns(inProgressColumn);
       }
       else if(evt.clientX > doneColumn.current.offsetLeft
-      && evt.clientX + currentTask.current.offsetWidth/2 < doneColumn.current.offsetLeft + doneColumn.current.offsetWidth){
+      && evt.clientX < doneColumn.current.offsetLeft + doneColumn.current.offsetWidth){
         handleColumns(doneColumn);
       }
     }
@@ -97,6 +97,9 @@ function App() {
         setTasks(newTasks);
         setChosenColumn(null);
         handleColumnStyle();
+      } else {
+        setMovePerm(false);
+        setChosenColumn(null);
       }
     }
 
