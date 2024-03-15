@@ -88,7 +88,7 @@ function App() {
     else
       window.removeEventListener('mousemove', handleMouseMove);
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (evt) => {
       if(movePerm && chosenColumn) {
         setMovePerm(false);
         currentTask.current.style.position = 'static';
@@ -98,8 +98,12 @@ function App() {
         setChosenColumn(null);
         handleColumnStyle();
       } else {
-        setMovePerm(false);
-        setChosenColumn(null);
+        if(evt.target.className == 'task'){
+          setMovePerm(false);
+          setChosenColumn(null);
+          const thisTask = tasks.find(task => task.id == evt.target.id);
+          alert(thisTask.content);
+        }
       }
     }
 
