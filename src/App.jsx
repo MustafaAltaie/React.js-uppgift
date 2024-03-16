@@ -22,6 +22,10 @@ function App() {
   // Getting the displayed task's info
   const [thisTask, setThisTask] = useState({});
   const [popup, setPopup] = useState(false);
+  // Edit tasks
+  const [edit, setEdit] = useState(false);
+  const [editedTitle, setEditedTitle] = useState('');
+  const [editedContent, setEditedContent] = useState('');
 
   useEffect(() => {
     setTaskTitle(''); // Erasing the inputs after adding new task
@@ -152,16 +156,32 @@ function App() {
     const thisTask = {
       title: task.title,
       content: task.content,
-      date: task.date
+      date: task.date,
+      parentColumn: task.parentColumn,
+      id: task.id
     }
     setThisTask(thisTask);
+  }
+
+  useEffect(() => {
+    setEditedTitle(thisTask.title);
+    setEditedContent(thisTask.content);
+  }, [thisTask]);
+
+  function handleEditTasks() {
+    setEdit(!edit);
+    if(edit) {
+      const newTasks = tasks.map(task => task.id == thisTask.id ? {...task, title: editedTitle, content: editedContent} : task);
+      setTasks(newTasks);
+    }
   }
 
   return (
     <div id="mainContainer">
       <Header />
 
-      <Main tasks={tasks}
+      <Main
+      tasks={tasks}
       taskTitle={taskTitle}
       setTaskTitle={setTaskTitle}
       taskContent={taskContent}
@@ -176,10 +196,17 @@ function App() {
       doneColumn={doneColumn}
       todoColumn={todoColumn} />
 
-      {popup && <TaskPopup title={thisTask.title}
-      content={thisTask.content}
-      date={thisTask.date}
-      setPopup={setPopup} />}
+      {popup && <TaskPopup
+      task={thisTask}
+      setPopup={setPopup}
+      setEdit={setEdit}
+      edit={edit}
+      handleDelete={handleDelete}
+      setEditedTitle={setEditedTitle}
+      editedTitle={editedTitle}
+      setEditedContent={setEditedContent}
+      editedContent={editedContent}
+      handleEditTasks={handleEditTasks} />}
     </div>
   )
 }
