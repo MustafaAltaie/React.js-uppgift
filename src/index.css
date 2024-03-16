@@ -1,11 +1,12 @@
 :root{
-  --mainColor: #ddddddb7;
+  --mainGreyColor: #ffffff9b;
   --textWhite: #fff;
   --textBlack: #000;
   --lightGrey: #bbb;
   --normalGrey: #999;
   --darkGrey: #555;
-  --mainBlue: #06a;
+  --mainColor: #ac62cc;
+  --mainRed: #d00;
   --normalTextSize: 16px;
   --smallTextSize: 14px;
 }
@@ -16,11 +17,12 @@
   font-family: Arial, sans-serif;
   user-select: none;
   scrollbar-width: none;
+  font-weight: normal;
 }
 button, input[type='text'], textarea{
   padding: 20px 10px;
   border-radius: 10px;
-  background: var(--mainBlue);
+  background: var(--mainColor);
   color: var(--textWhite);
   border: none;
   cursor: pointer;
@@ -44,17 +46,19 @@ textarea{
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-image: url('https://cdn.pixabay.com/photo/2018/02/15/14/37/paper-3155438_1280.jpg');
+  background-position: center;
+  background-size: cover;
 }
 header{
   background: var(--mainColor);
-  color: var(--textBlack);
+  color: var(--textWhite);
   padding: 20px;
   border-bottom: solid 1px var(--lightGrey);
 }
 main{
-  background: var(--textWhite);
+  background: var(--mainGreyColor);
   height: 100%;
-  max-height: 90%;
   display: flex;
   gap: 20px;
   padding: 40px;
@@ -63,7 +67,7 @@ main{
 .column{
   width: 380px;
   height: 100%;
-  background: var(--mainColor);
+  background: var(--mainGreyColor);
   border-radius: 20px;
   border: solid 1px var(--lightGrey);
   display: flex;
@@ -75,7 +79,7 @@ main{
   padding-bottom: 10px;
   margin-bottom: 10px;
   text-align: center;
-  color: var(--mainBlue);
+  color: var(--mainColor);
 }
 .taskContainer{
   max-height: 100%;
@@ -83,10 +87,10 @@ main{
   scroll-behavior: smooth;
 }
 .taskContainer > div{
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: 10px;
   margin: 10px 0;
-  background: var(--mainColor);
+  background: var(--mainGreyColor);
   border: solid 1px var(--lightGrey);
   list-style: none;
   width: 336px;
@@ -114,8 +118,9 @@ main{
   margin-right: 20px;
 }
 .taskContainer .trashBtn{
-  color: #a00;
+  color: var(--mainRed);
   cursor: pointer;
+  padding: 10px 0 10px 20px;
 }
 .column > button, .column > input, textarea{
   margin-top: 10px;
@@ -131,6 +136,51 @@ main{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-weight: normal;
   transition: 0.2s linear 0.2s;
+}
+
+#taskViewer{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--mainColor);
+  width: 50%;
+  min-height: 50%;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.closePopup{
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 30px;
+  cursor: pointer;
+  color: var(--textWhite);
+}
+#titleDisplay{
+  color: var(--textWhite);
+  transform: scale(1.5);
+  text-align: center;
+  border-bottom: solid 1px var(--textWhite);
+  width: 100%;
+  padding: 30px 0 15px;
+}
+#contentDisplay{
+  text-align: center;
+  padding: 0 20px;
+  max-height: 120px;
+  overflow-y: scroll;
+  color: var(--textWhite);
+}
+#dateDisplay{
+  align-self: flex-start;
+  margin: 0 20px 20px 20px;
+  color: var(--mainGreyColor);
 }

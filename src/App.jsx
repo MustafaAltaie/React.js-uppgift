@@ -2,6 +2,7 @@ import './App.css'
 import Header from './components/header';
 import Main from './components/Main';
 import { useState, useEffect, useRef } from "react";
+import TaskPopup from './components/TaskPopup';
 
 function App() {
   const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -10,6 +11,17 @@ function App() {
   const [taskContent, setTaskContent] = useState('');
   const [isClicked, setIsClicked] = useState(false);
   const taskItemList = useRef(null);
+  // Using useRef instead of using DOM (querySelector or getElement)
+  let currentTask = useRef(null);
+  let todoColumn = useRef(null);
+  let inProgressColumn = useRef(null);
+  let doneColumn = useRef(null);
+  // Adding permission to move tasks among columns
+  const [movePerm, setMovePerm] = useState(false);
+  const [chosenColumn, setChosenColumn] = useState(null);
+  // Getting the displayed task's info
+  const [thisTask, setThisTask] = useState({});
+  const [popup, setPopup] = useState(false);
 
   useEffect(() => {
     setTaskTitle(''); // Erasing the inputs after adding new task
@@ -34,12 +46,6 @@ function App() {
     setIsClicked(!isClicked);
   }
 
-  // Using useRef instead of using DOM (querySelector or getElement)
-  let currentTask = useRef(null);
-  let todoColumn = useRef(null);
-  let inProgressColumn = useRef(null);
-  let doneColumn = useRef(null);
-
   // Handle deletion
   const handleDelete = (id) => {
     // First 3 rows are just to make sure the task getting deleted without causing error
@@ -49,10 +55,6 @@ function App() {
     todoColumn.current.querySelector('.taskContainer').appendChild(document.getElementById(thisTask.id));
     setTasks(tasks.filter(task => task.id !== id));
   }
-
-  // Adding permission to move tasks among columns
-  const [movePerm, setMovePerm] = useState(false);
-  const [chosenColumn, setChosenColumn] = useState(null);
 
   const handleMouseDown = ({ target }) => {
     if(target.className !== 'trashBtn'){ // Exclude the delete button from handle movement
@@ -64,16 +66,16 @@ function App() {
   // Styling all columns to distinguish them from the chosen column
   useEffect(() => {
     const handleColumnStyle = () => {
-      todoColumn.current.style.backgroundColor = '#ddddddb7';
-      inProgressColumn.current.style.backgroundColor = '#ddddddb7';
-      doneColumn.current.style.backgroundColor = '#ddddddb7';
+      todoColumn.current.style.backgroundColor = '#ffffffb7';
+      inProgressColumn.current.style.backgroundColor = '#ffffffb7';
+      doneColumn.current.style.backgroundColor = '#ffffffb7';
     }
 
     // Highlighting only the hovered column during movement
     const handleColumns = (evt) => {
       setChosenColumn(evt.current);
       handleColumnStyle();
-      evt.current.style.backgroundColor = '#bdc';
+      evt.current.style.backgroundColor = '#e7d0f1';
     }
 
     // Handle the movement of tasks among columns
@@ -119,7 +121,8 @@ function App() {
           setChosenColumn(null);
           // Display the clicked task
           const thisTask = tasks.find(task => task.id == evt.target.id);
-          alert(thisTask.content);
+          handleDisplay(thisTask);
+          setPopup(true);
         }
       }
     }
@@ -142,12 +145,22 @@ function App() {
   function handleAppendChildren(columnName, child) {
     setTimeout(() => {
       document.querySelector('#' + columnName).querySelector('.taskContainer').appendChild(document.getElementById(child));
-    }, 10)
+    })
+  }
+
+  function handleDisplay(task) {
+    const thisTask = {
+      title: task.title,
+      content: task.content,
+      date: task.date
+    }
+    setThisTask(thisTask);
   }
 
   return (
     <div id="mainContainer">
       <Header />
+
       <Main tasks={tasks}
       taskTitle={taskTitle}
       setTaskTitle={setTaskTitle}
@@ -162,6 +175,11 @@ function App() {
       inProgressColumn={inProgressColumn}
       doneColumn={doneColumn}
       todoColumn={todoColumn} />
+
+      {popup && <TaskPopup title={thisTask.title}
+      content={thisTask.content}
+      date={thisTask.date}
+      setPopup={setPopup} />}
     </div>
   )
 }
