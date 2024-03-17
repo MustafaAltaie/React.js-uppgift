@@ -20,6 +20,9 @@
   scrollbar-width: none;
   font-weight: normal;
 }
+h2{
+  font-family: "Concert One", sans-serif;
+}
 button, input[type='text'], textarea{
   padding: 20px 10px;
   border-radius: 10px;
@@ -152,7 +155,6 @@ main{
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
   overflow: hidden;
   border-radius: 20px;
 }
@@ -179,14 +181,14 @@ main{
   color: var(--textWhite);
   text-align: center;
   border: none;
-  border-bottom: solid 1px var(--textWhite);
   width: 100%;
   padding: 20px;
   font-size: var(--bigTextSize);
+  font-weight: bold;
 }
 #contentDisplay{
   text-align: center;
-  padding: 0 20px;
+  width: 80%;
   max-height: 120px;
   overflow-y: scroll;
   border: none;
@@ -194,11 +196,12 @@ main{
 }
 #dateDisplay{
   color: var(--normalGrey);
+  margin-top: 30px;
 }
 #taskViewer > div{
   display: flex;
   gap: 10px;
-  padding: 0 20px 20px;
+  margin: 10px 0 30px 0;
 }
 #taskViewer > div > button{
   width: 100px;
