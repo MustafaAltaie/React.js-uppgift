@@ -90,7 +90,7 @@ main{
   scroll-behavior: smooth;
 }
 .taskContainer > div{
-  padding: 10px 20px;
+  padding-left: 20px;
   border-radius: 10px;
   margin: 10px 0;
   background: var(--mainGreyColor);
@@ -101,7 +101,7 @@ main{
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: border 0.2s, box-shadow 0.2s;
+  transition: border 0.2s, box-shadow 0.2s, transform 0.4s;
 }
 .taskContainer > div:first-child{
   margin: 0 0 10px 0;
@@ -122,10 +122,10 @@ main{
 .taskContainer > div > p{
   margin-right: 20px;
 }
-.taskContainer .trashBtn{
+.trashBtn{
   color: var(--mainRed);
   cursor: pointer;
-  padding: 10px 0 10px 20px;
+  padding: 20px;
 }
 .column > button, .column > input, textarea{
   margin-top: 10px;

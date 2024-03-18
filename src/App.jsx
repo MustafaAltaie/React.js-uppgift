@@ -55,10 +55,13 @@ function App() {
   const handleDelete = (id) => {
     // First 3 rows are just to make sure the task getting deleted without causing error
     let thisTask = tasks.find(task => task.id === id);
-    thisTask.parentColumn !== 'todoColumn' &&
+    document.getElementById(thisTask.id).style.transform = 'translateX(-100%)';
     //Make sure to move the deleted task to the main column first to avoid consol errors
-    todoColumn.current.querySelector('.taskContainer').appendChild(document.getElementById(thisTask.id));
-    setTasks(tasks.filter(task => task.id !== id));
+    setTimeout(() => {
+      thisTask.parentColumn !== 'todoColumn' &&
+      todoColumn.current.querySelector('.taskContainer').appendChild(document.getElementById(thisTask.id));
+      setTasks(tasks.filter(task => task.id !== id));
+    }, 200);
   }
 
   const handleMouseDown = ({ target }) => {
