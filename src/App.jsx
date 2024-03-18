@@ -33,6 +33,7 @@ function App() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
+  // Add new task
   const handleNewTask = () => {
     const newItem = {
       id: Date.now(),
@@ -152,6 +153,7 @@ function App() {
     })
   }
 
+  // Display tasks on click
   function handleDisplay(task) {
     const thisTask = {
       title: task.title,
@@ -163,11 +165,13 @@ function App() {
     setThisTask(thisTask);
   }
 
+  // Fetch the title and the content of the selected task
   useEffect(() => {
     setEditedTitle(thisTask.title);
     setEditedContent(thisTask.content);
   }, [thisTask]);
 
+  // Update task information
   function handleEditTasks() {
     setEdit(!edit);
     if(edit) {
