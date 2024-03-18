@@ -13,9 +13,6 @@ function App() {
   const taskItemList = useRef(null);
   // Using useRef instead of using DOM (querySelector or getElement)
   let currentTask = useRef(null);
-  let todoColumn = useRef(null);
-  let inProgressColumn = useRef(null);
-  let doneColumn = useRef(null);
   // Adding permission to move tasks among columns
   const [movePerm, setMovePerm] = useState(false);
   const [chosenColumn, setChosenColumn] = useState(null);
@@ -26,6 +23,8 @@ function App() {
   const [edit, setEdit] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
+  const column = document.getElementsByClassName('column');
+  const mainSection = useRef(null);
 
   useEffect(() => {
     setTaskTitle(''); // Erasing the inputs after adding new task
@@ -59,7 +58,7 @@ function App() {
     //Make sure to move the deleted task to the main column first to avoid consol errors
     setTimeout(() => {
       thisTask.parentColumn !== 'todoColumn' &&
-      todoColumn.current.querySelector('.taskContainer').appendChild(document.getElementById(thisTask.id));
+      document.getElementById('todoColumn').querySelector('.taskContainer').appendChild(document.getElementById(thisTask.id));
       setTasks(tasks.filter(task => task.id !== id));
     }, 200);
   }
@@ -74,36 +73,29 @@ function App() {
   // Styling all columns to distinguish them from the chosen column
   useEffect(() => {
     const handleColumnStyle = () => {
-      todoColumn.current.style.backgroundColor = '#ffffffb7';
-      inProgressColumn.current.style.backgroundColor = '#ffffffb7';
-      doneColumn.current.style.backgroundColor = '#ffffffb7';
+      for(let i = 0; i < column.length; i++)
+      column[i].style.backgroundColor = '#ffffff55';
     }
 
     // Highlighting only the hovered column during movement
-    const handleColumns = (evt) => {
-      setChosenColumn(evt.current);
+    const handleColumns = (column) => {
+      setChosenColumn(column);
       handleColumnStyle();
-      evt.current.style.backgroundColor = '#e7d0f1';
+      column.style.backgroundColor = '#e7d0f1';
     }
 
     // Handle the movement of tasks among columns
     const handleMouseMove = (evt) => {
       currentTask.current.style.position = 'absolute';
-      // Making sure that the task is being moved appropirately
-      currentTask.current.style.left = evt.clientX - currentTask.current.offsetWidth/2 + 'px';
-      currentTask.current.style.top = evt.clientY - currentTask.current.offsetHeight/2 + 'px';
+      // Making sure that the task is being moved appropirately with taking into account scrollLeft amount of the main section
+      currentTask.current.style.left = evt.clientX - currentTask.current.offsetWidth/2 + mainSection.current.scrollLeft + 'px';
+      currentTask.current.style.top = evt.clientY - currentTask.current.offsetHeight/2 - 50 + 'px';
       // Choosing the hovered column while moving tasks
-      if(evt.clientX > todoColumn.current.offsetLeft
-      && evt.clientX < todoColumn.current.offsetLeft + todoColumn.current.offsetWidth){
-        handleColumns(todoColumn);
-      }
-      else if(evt.clientX > inProgressColumn.current.offsetLeft
-      && evt.clientX < inProgressColumn.current.offsetLeft + inProgressColumn.current.offsetWidth){
-        handleColumns(inProgressColumn);
-      }
-      else if(evt.clientX > doneColumn.current.offsetLeft
-      && evt.clientX < doneColumn.current.offsetLeft + doneColumn.current.offsetWidth){
-        handleColumns(doneColumn);
+      for(let i = 0; i < column.length; i++){
+        if(evt.clientX > column[i].offsetLeft
+          && evt.clientX < column[i].offsetLeft + column[i].offsetWidth){
+            handleColumns(column[i]);
+          }
       }
     }
 
@@ -142,7 +134,7 @@ function App() {
       window.removeEventListener('mouseup', handleMouseUp);
     }
     
-  }, [movePerm, chosenColumn, tasks]);
+  }, [movePerm, chosenColumn, tasks, column]);
 
   // Publishing each tesk to it's column
   function handleChildren() {
@@ -153,7 +145,7 @@ function App() {
   function handleAppendChildren(columnName, child) {
     setTimeout(() => {
       document.querySelector('#' + columnName).querySelector('.taskContainer').appendChild(document.getElementById(child));
-    })
+    }, 10)
   }
 
   // Display tasks on click
@@ -199,9 +191,7 @@ function App() {
       handleDelete={handleDelete}
       taskItemList={taskItemList}
       handleMouseDown={handleMouseDown}
-      inProgressColumn={inProgressColumn}
-      doneColumn={doneColumn}
-      todoColumn={todoColumn} />
+      mainSection={mainSection} />
 
       {popup && <TaskPopup
       task={thisTask}
