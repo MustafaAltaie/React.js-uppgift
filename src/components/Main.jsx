@@ -20,6 +20,7 @@ const Main = (props) => {
 
     useEffect(() => {
         localStorage.setItem('columns', JSON.stringify(columns));
+        setNewColumn(false);
     }, [columns]);
 
     const handleColumnDeletion = (clmn) => {

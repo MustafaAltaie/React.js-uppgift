@@ -67,7 +67,7 @@ main::-webkit-scrollbar{
   background: #00000000;
 }
 main::-webkit-scrollbar-thumb{
-  background: #555;
+  background: var(--mainColor);
   border-radius: 20px;
 }
 #addColumnBtn, #newColumnText, #newColumnSubmit{
