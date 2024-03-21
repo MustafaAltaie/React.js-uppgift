@@ -191,7 +191,8 @@ function App() {
       handleDelete={handleDelete}
       taskItemList={taskItemList}
       handleMouseDown={handleMouseDown}
-      mainSection={mainSection} />
+      mainSection={mainSection}
+      popup={popup} />
 
       {popup && <TaskPopup
       task={thisTask}

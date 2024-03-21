@@ -29,8 +29,8 @@ const Main = (props) => {
     }
 
     return (
-        <main ref={props.mainSection}>
-            <h1 title='Add Column' id='addColumnBtn' onClick={() => setNewColumn(!newColumn)} style={{transform: `rotate(${newColumn ? 45 : 0}deg)`}}>+</h1>
+        <main ref={props.mainSection} style={{pointerEvents: props.popup ? 'none' : 'unset'}}>
+            <h1 title={newColumn ? 'Close' : 'Add Column'} id='addColumnBtn' onClick={() => setNewColumn(!newColumn)} style={{transform: `rotate(${newColumn ? 45 : 0}deg)`}}>+</h1>
             {newColumn && <input type="text" id="newColumnText" placeholder="Column Name" autoFocus value={input} onChange={(e) => setInput(e.target.value)} />}
             {input && <button id='newColumnSubmit' onClick={handleNewColumn}>Add {input}</button>}
             <div id="columnContainer">
@@ -48,7 +48,7 @@ const Main = (props) => {
                     setTaskContent={props.setTaskContent}
                     isClicked={props.isClicked}
                     handleNewTask={props.handleNewTask} />
-                    <h1 title='Add Task' onClick={props.handleShowElement} style={{transform: props.isClicked ? 'rotate(135deg) scale(1.5)' : 'rotate(0deg) scale(1)'}}>+</h1>
+                    <h1 title={props.isClicked ? 'Close' : 'Add Task'} onClick={props.handleShowElement} style={{transform: props.isClicked ? 'rotate(135deg) scale(1.5)' : 'rotate(0deg) scale(1)'}}>+</h1>
                 </div>
                 {columns.map(column => (
                     <div className="column" id={column.replace(/ /g, '')} key={column}>
@@ -75,6 +75,7 @@ Main.propTypes = {
     taskItemList: propTypes.object,
     handleMouseDown: propTypes.func,
     mainSection: propTypes.object,
+    popup: propTypes.bool
 }
 
 export default Main
