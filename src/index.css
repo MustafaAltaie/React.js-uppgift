@@ -1,7 +1,7 @@
 :root{
   --mainGreyColor: #ffffff55;
-  --textWhite: #fff;
-  --textBlack: #000;
+  --whiteText: #fff;
+  --blackText: #000;
   --lightGrey: #bbb;
   --normalGrey: #999;
   --mainColor: #ac62cc;
@@ -26,7 +26,7 @@ button, input[type='text'], textarea{
   padding: 20px 10px;
   border-radius: 10px;
   background: var(--mainColor);
-  color: var(--textWhite);
+  color: var(--whiteText);
   border: none;
   cursor: pointer;
 }
@@ -34,8 +34,8 @@ button:hover, #settingMenu > p:hover{
   filter: brightness(130%);
 }
 input[type='text'], textarea{
-  background: var(--textWhite);
-  color: var(--textBlack);
+  background: var(--whiteText);
+  color: var(--blackText);
   border: solid 1px var(--lightGrey);
 }
 textarea{
@@ -52,9 +52,21 @@ textarea{
 }
 header{
   background: var(--mainColor);
-  color: var(--textWhite);
+  color: var(--whiteText);
   padding: 20px;
   border-bottom: solid 1px var(--lightGrey);
+}
+nav{
+  display: flex;
+  gap: 10px;
+}
+nav > a{
+  text-decoration: none;
+  color: var(--whiteText);
+}
+nav p{
+  padding: 10px 20px;
+  cursor: pointer;
 }
 main{
   position: relative;
@@ -173,7 +185,7 @@ main::-webkit-scrollbar-thumb{
 }
 .trashBtn:hover{
   background: var(--mainColor);
-  color: var(--textWhite);
+  color: var(--whiteText);
 }
 .column > button, .column > input, textarea{
   margin-top: 10px;
@@ -197,8 +209,8 @@ main::-webkit-scrollbar-thumb{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--textWhite);
-  border: solid 1px var(--textBlack);
+  background: var(--whiteText);
+  border: solid 1px var(--blackText);
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -214,7 +226,7 @@ main::-webkit-scrollbar-thumb{
   right: 0;
   padding: 20px;
   cursor: pointer;
-  color: var(--textWhite);
+  color: var(--whiteText);
 }
 #popupColumn{
   position: absolute;
@@ -222,12 +234,12 @@ main::-webkit-scrollbar-thumb{
   top: 20px;
   padding: 10px;
   border-radius: 30px;
-  background: var(--textWhite);
-  color: var(--textBlack);
+  background: var(--whiteText);
+  color: var(--blackText);
 }
 #titleDisplay{
   background: var(--mainColor);
-  color: var(--textWhite);
+  color: var(--whiteText);
   text-align: center;
   border: none;
   width: 100%;

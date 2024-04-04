@@ -1,8 +1,12 @@
 import './App.css'
 import Header from './components/header';
 import Main from './components/Main';
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createContext } from "react";
 import TaskPopup from './components/TaskPopup';
+import { Routes, Route, useParams } from 'react-router-dom';
+
+export const MainContext = createContext();
+export const NavContext = createContext();
 
 function App() {
   const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -25,6 +29,8 @@ function App() {
   const [editedContent, setEditedContent] = useState('');
   const column = document.getElementsByClassName('column');
   const mainSection = useRef(null);
+  const [columns, setColumns] = useState(JSON.parse(localStorage.getItem('columns')) || []);
+  const [thisColumn, setThisColumn] = useState('');
 
   useEffect(() => {
     setTaskTitle(''); // Erasing the inputs after adding new task
@@ -89,11 +95,11 @@ function App() {
       currentTask.current.style.position = 'absolute';
       // Making sure that the task is being moved appropirately with taking into account scrollLeft amount of the main section
       currentTask.current.style.left = evt.clientX - currentTask.current.offsetWidth/2 + mainSection.current.scrollLeft + 'px';
-      currentTask.current.style.top = evt.clientY - currentTask.current.offsetHeight/2 - 50 + 'px';
+      currentTask.current.style.top = evt.clientY - currentTask.current.offsetHeight/2 - 90 + 'px';
       // Choosing the hovered column while moving tasks
       for(let i = 0; i < column.length; i++){
-        if(evt.clientX > column[i].offsetLeft
-          && evt.clientX < column[i].offsetLeft + column[i].offsetWidth){
+        if(evt.clientX > column[i].offsetLeft - mainSection.current.scrollLeft
+          && evt.clientX < column[i].offsetLeft + column[i].offsetWidth + mainSection.current.scrollLeft){
             handleColumns(column[i]);
           }
       }
@@ -175,24 +181,44 @@ function App() {
     }
   }
 
+  function FilteredColumns() {
+    const { thisColumn } = useParams();
+    useEffect(() => {
+        setThisColumn(thisColumn);
+    }, [thisColumn]);
+}
+
   return (
     <div id="mainContainer">
-      <Header />
+      <NavContext.Provider value={{columns}}>
+        <Header />
+      </NavContext.Provider>
 
-      <Main
-      tasks={tasks}
-      taskTitle={taskTitle}
-      setTaskTitle={setTaskTitle}
-      taskContent={taskContent}
-      setTaskContent={setTaskContent}
-      handleNewTask={handleNewTask}
-      handleShowElement={handleShowElement}
-      isClicked={isClicked}
-      handleDelete={handleDelete}
-      taskItemList={taskItemList}
-      handleMouseDown={handleMouseDown}
-      mainSection={mainSection}
-      popup={popup} />
+      <Routes>
+        <Route path='/:thisColumn' element={<FilteredColumns />} />
+        <Route path='/' element={<FilteredColumns />} />
+      </Routes>
+
+      <MainContext.Provider value={{
+            tasks,
+            taskTitle,
+            setTaskTitle,
+            taskContent,
+            setTaskContent,
+            handleNewTask,
+            handleShowElement,
+            isClicked,
+            handleDelete,
+            taskItemList,
+            handleMouseDown,
+            mainSection,
+            popup,
+            setColumns,
+            columns,
+            thisColumn
+          }}>
+            <Main />
+        </MainContext.Provider>
 
       {popup && <TaskPopup
       task={thisTask}
@@ -209,4 +235,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

@@ -1,14 +1,18 @@
-import propTypes from 'prop-types';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { MainContext } from "../App";
 
-const TaskList = ({ tasks, handleDelete, handleMouseDown }) => {
+const TaskList = () => {
   // Animation to the tasks
   const [shift, setShift] = useState(true);
 
+  const { tasks, handleDelete, handleMouseDown } = useContext(MainContext);
+
   useEffect(() => {
-    setTimeout(() => {
+    const myTimeout = setTimeout(() => {
       setShift(false);
     }, 100);
+
+    return () => clearTimeout(myTimeout);
   }, [shift]);
 
   return (
@@ -20,12 +24,6 @@ const TaskList = ({ tasks, handleDelete, handleMouseDown }) => {
         </div>
       )
   )
-}
-
-TaskList.propTypes = {
-    tasks: propTypes.array,
-    handleDelete: propTypes.func,
-    handleMouseDown: propTypes.func
 }
 
 export default TaskList

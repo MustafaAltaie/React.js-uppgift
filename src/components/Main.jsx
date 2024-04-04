@@ -1,13 +1,21 @@
 import TaskList from "./TaskList";
-import propTypes from 'prop-types';
 import SettingsList from "./SettingsList";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { MainContext } from "../App";
 
-const Main = (props) => {
-    const columnList = ['inProgressColumn', 'doneColumn'];
-    const [columns, setColumns] = useState(JSON.parse(localStorage.getItem('columns')) || columnList);
+const Main = () => {
     const [newColumn, setNewColumn] = useState(false);
     const [input, setInput] = useState('');
+    const {
+        handleShowElement,
+        isClicked,
+        taskItemList,
+        mainSection,
+        popup,
+        setColumns,
+        columns,
+        thisColumn
+    } = useContext(MainContext);
 
     useEffect(() => {
         !newColumn && setInput('');
@@ -29,53 +37,32 @@ const Main = (props) => {
     }
 
     return (
-        <main ref={props.mainSection} style={{pointerEvents: props.popup ? 'none' : 'unset'}}>
+        <main ref={mainSection} style={{pointerEvents: popup ? 'none' : 'unset'}}>
             <h1 title={newColumn ? 'Close' : 'Add Column'} id='addColumnBtn' onClick={() => setNewColumn(!newColumn)} style={{transform: `rotate(${newColumn ? 45 : 0}deg)`}}>+</h1>
             {newColumn && <input type="text" id="newColumnText" placeholder="Column Name" autoFocus value={input} onChange={(e) => setInput(e.target.value)} />}
             {input && <button id='newColumnSubmit' onClick={handleNewColumn}>Add {input}</button>}
             <div id="columnContainer">
-                <div className="column" id='todoColumn'>
+                <div className="column" id='todoColumn' style={{display: !thisColumn ? 'flex' : 'none'}}>
                     <h2>Todo</h2>
-                    <div className="taskContainer" ref={props.taskItemList}>
-                        <TaskList tasks={props.tasks}
-                        handleDelete={props.handleDelete}
-                        handleMouseDown={props.handleMouseDown} />
+                    <div className="taskContainer" ref={taskItemList}>
+                        <TaskList />
                     </div>
-                    <SettingsList
-                    taskTitle={props.taskTitle}
-                    setTaskTitle={props.setTaskTitle}
-                    taskContent={props.taskContent}
-                    setTaskContent={props.setTaskContent}
-                    isClicked={props.isClicked}
-                    handleNewTask={props.handleNewTask} />
-                    <h1 title={props.isClicked ? 'Close' : 'Add Task'} onClick={props.handleShowElement} style={{transform: props.isClicked ? 'rotate(135deg) scale(1.5)' : 'rotate(0deg) scale(1)'}}>+</h1>
+                    <SettingsList />
+                    <h1 title={isClicked ? 'Close' : 'Add Task'} onClick={handleShowElement} style={{transform: isClicked ? 'rotate(135deg) scale(1.5)' : 'rotate(0deg) scale(1)'}}>+</h1>
                 </div>
-                {columns.map(column => (
-                    <div className="column" id={column.replace(/ /g, '')} key={column}>
-                        <h6 className='deleteColumnBtn' onClick={() => handleColumnDeletion(column)}>Delete {column.slice(0, column.length-6)}</h6>
-                        <h2>{column.slice(0, column.length-6)}</h2>
-                        <div className="taskContainer"></div>
-                    </div>
-                ))}
+                {columns.map(column => {
+                    const columnText = column.slice(0, column.length - 6);
+                    return (
+                        <div className="column" id={column.replace(/ /g, '')} key={column} style={thisColumn ? {display: columnText === thisColumn ? 'flex' : 'none'} : {display: 'flex'}}>
+                            <h6 className='deleteColumnBtn' onClick={() => handleColumnDeletion(column)}>Delete {columnText}</h6>
+                            <h2>{columnText}</h2>
+                            <div className="taskContainer"></div>
+                        </div>
+                    );
+                })}
             </div>
         </main>
     )
 }
 
-Main.propTypes = {
-    tasks: propTypes.array,
-    setTaskTitle: propTypes.func,
-    taskTitle: propTypes.string,
-    setTaskContent: propTypes.func,
-    taskContent: propTypes.string,
-    handleNewTask: propTypes.func,
-    handleShowElement: propTypes.func,
-    isClicked: propTypes.bool,
-    handleDelete: propTypes.func,
-    taskItemList: propTypes.object,
-    handleMouseDown: propTypes.func,
-    mainSection: propTypes.object,
-    popup: propTypes.bool
-}
-
-export default Main
+export default Main;

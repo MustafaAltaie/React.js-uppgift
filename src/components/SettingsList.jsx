@@ -1,24 +1,25 @@
-import propTypes from 'prop-types';
+import { useContext } from 'react';
+import { MainContext } from '../App';
 
-const SettingsList = (props) => {
+const SettingsList = () => {
+  const {
+    setTaskTitle,
+    taskTitle,
+    setTaskContent,
+    taskContent,
+    handleNewTask,
+    isClicked
+  } = useContext(MainContext);
+
   return (
-    props.isClicked && (
+    isClicked && (
         <>
-        <input type="text" placeholder="Add Title" value={props.taskTitle} onChange={evt => props.setTaskTitle(evt.target.value)} />
-        <textarea placeholder="Add Content" value={props.taskContent} onChange={evt => props.setTaskContent(evt.target.value)}></textarea>
-        <button onClick={props.handleNewTask}>Add</button>
+        <input type="text" placeholder="Add Title" value={taskTitle} onChange={evt => setTaskTitle(evt.target.value)} />
+        <textarea placeholder="Add Content" value={taskContent} onChange={evt => setTaskContent(evt.target.value)}></textarea>
+        <button onClick={handleNewTask}>Add</button>
         </>
     )
   )
-}
-
-SettingsList.propTypes = {
-    setTaskTitle: propTypes.func,
-    taskTitle: propTypes.string,
-    setTaskContent: propTypes.func,
-    taskContent: propTypes.string,
-    handleNewTask: propTypes.func,
-    isClicked: propTypes.bool
 }
 
 export default SettingsList
